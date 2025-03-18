@@ -19,6 +19,20 @@
             <span class="delete-btn" th:data-id="${i.id}">🗑️</span>
         </div>
     </div>
+    <div class = "pagination">
+        <span th:if="${currentPage - 1}">
+            <a th:href="@{/list/page/{page}(page=${currentPage - 1})}">이전</a>
+        </span>
+        <span th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+            <a th:href="@{/list/page/{page}(page=${pageNum})}"
+               th:text="${pageNum}"
+               th:classappend="${pageNum == currentPage} ? 'active' : ''"></a>
+        </span>
+
+        <span th:if="${currentPage < totalPages}">
+            <a th:href="@{/list/page/{page}(page=${currentPage + 1})}">다음</a>
+        </span>
+    </div>
     <button class = "btn">버튼</button>
     <script>
             document.addEventListener('DOMContentLoaded', () => {

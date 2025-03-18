@@ -43,10 +43,12 @@ public class ItemController {
         return "list.html";
     }
 
-    @GetMapping("/list/page/{abc}")
-    String getListPage(Model model, @PathVariable Integer abc) {
-        Page<Item> result = itemRepository.findPageBy(PageRequest.of(abc-1, 5));
-        model.addAttribute("items", result);
+    @GetMapping("/list/page/{currentPage}")
+    String getListPage(Model model, @PathVariable Integer currentPage) {
+        Page<Item> result = itemRepository.findPageBy(PageRequest.of(currentPage-1, 5));
+        model.addAttribute("items", result.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", result.getTotalPages());
         return "list.html";
     }
 
