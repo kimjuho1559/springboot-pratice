@@ -3,6 +3,8 @@ package me.kimjuho.shop.item;
 import lombok.RequiredArgsConstructor;
 import me.kimjuho.shop.Book;
 import me.kimjuho.shop.BookRepository;
+import me.kimjuho.shop.comment.Comment;
+import me.kimjuho.shop.comment.CommentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class ItemController {
     private final BookRepository bookRepository;
     private final ItemService itemService;
     private final S3Service s3Service;
-
+    private final CommentService commentService;
     /*
     @RequiredArgsConstructor를 안쓴다면 ?
     -> 밑에 방식을 사용
@@ -46,10 +48,17 @@ public class ItemController {
 
     @GetMapping("/list/page/{currentPage}")
     String getListPage(Model model, @PathVariable Integer currentPage) {
-        Page<Item> result = itemRepository.findPageBy(PageRequest.of(currentPage-1, 5));
+        if (currentPage == null || currentPage < 1) {
+            currentPage = 1; // 기본값 설정
+        }
+
+        Page<Item> result = itemRepository.findPageBy(PageRequest.of(currentPage - 1, 5));
+        int totalPages = result.getTotalPages(); // totalPages가 null이 아닌지 확인
+
         model.addAttribute("items", result.getContent());
         model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", result.getTotalPages());
+        model.addAttribute("totalPages", totalPages > 0 ? totalPages : 1); // 최소 1 이상 유지
+
         return "list.html";
     }
 
@@ -60,10 +69,10 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String addPost(@RequestParam String title, @RequestParam Integer price, @RequestParam String username) {
+    String addPost(@RequestParam String title, @RequestParam Integer price, @RequestParam String username, @RequestParam String imgUrl) {
         try {
-            itemService.saveItem(title, price, username);
-            return "redirect:/list";
+            itemService.saveItem(title, price, username, imgUrl);
+            return "redirect:/list/page/1";
         }
         catch (Exception e) {
             return "error.html";
@@ -100,8 +109,10 @@ public class ItemController {
 
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model) {
+        List<Comment> comments = commentService.getComments(id);
         Optional<Item> result = itemService.findItem(id);
         if (result.isPresent()) {
+            model.addAttribute("comments", comments);
             model.addAttribute("item", result.get());
             return "detail.html";
         } else {

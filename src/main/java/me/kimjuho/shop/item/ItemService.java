@@ -12,10 +12,11 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public void saveItem(String title, Integer price, String username) {
+    public void saveItem(String title, Integer price, String username, String imgUrl) {
         if (title.length() < 100 || price < 2000000000 && price >= 0) {
             Item item = new Item(title, price);
             item.setUsername(username);
+            item.setImgUrl(imgUrl);
             itemRepository.save(item);
         } else {
             throw new RuntimeException("error");

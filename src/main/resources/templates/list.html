@@ -8,7 +8,8 @@
 <body>
     <div th:replace = "~{nav.html::navbar}"></div>
     <div class = "card" th:each="i: ${items}">
-        <img src = "https://placehold.co/300">
+        <img th:src="${i.imgUrl != null and i.imgUrl != '' ? i.imgUrl : 'https://placehold.co/300'}"
+             alt="상품 이미지">
         <div>
             <h4>
                 <a th:href="@{/detail/{id}(id=${i.id})}" th:text="${i.title}">바지</a>
@@ -19,20 +20,13 @@
             <span class="delete-btn" th:data-id="${i.id}">🗑️</span>
         </div>
     </div>
-    <div class = "pagination">
-        <span th:if="${currentPage - 1}">
-            <a th:href="@{/list/page/{page}(page=${currentPage - 1})}">이전</a>
-        </span>
-        <span th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-            <a th:href="@{/list/page/{page}(page=${pageNum})}"
-               th:text="${pageNum}"
-               th:classappend="${pageNum == currentPage} ? 'active' : ''"></a>
-        </span>
+    <!-- list.html -->
+    <th:block th:with="curPage=${currentPage ?: 1}">
+        <a th:if="${curPage > 1}" th:href="@{/list/page/{page}(page=${curPage - 1})}">이전</a>
+        <span th:text="'현재 페이지: ' + ${curPage}"></span>
+        <a th:if="${curPage < totalPages}" th:href="@{/list/page/{page}(page=${curPage + 1})}">다음</a>
+    </th:block>
 
-        <span th:if="${currentPage < totalPages}">
-            <a th:href="@{/list/page/{page}(page=${currentPage + 1})}">다음</a>
-        </span>
-    </div>
     <button class = "btn">버튼</button>
     <script>
             document.addEventListener('DOMContentLoaded', () => {

@@ -13,10 +13,12 @@
         <input name = "title">
         <input name = "price">
         <input name = "username" th:value = "${username}">
+        <input name = "imgFile" type = "file" onchange="getURL(this)">
+        <img src = "">
+        <input type="hidden" name="imgUrl" id="imgUrl">
         <button>전송</button>
     </form>
-    <input type = "file" onchange="getURL(this)">
-    <img src = "">
+
     <script>
         async function getURL(e) {
             let name = encodeURIComponent(e.files[0].name)
@@ -33,6 +35,7 @@
             console.log(check.url.split("?")[0])
             if (check.ok) {
                 document.querySelector('img').src = check.url.split("?")[0]
+                document.getElementById('imgUrl').value = check.url.split("?")[0]
             }
         }
     </script>
