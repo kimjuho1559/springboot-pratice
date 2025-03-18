@@ -23,6 +23,7 @@ public class ItemController {
     private final ItemRepository itemRepository;
     private final BookRepository bookRepository;
     private final ItemService itemService;
+    private final S3Service s3Service;
 
     /*
     @RequiredArgsConstructor를 안쓴다면 ?
@@ -67,6 +68,14 @@ public class ItemController {
         catch (Exception e) {
             return "error.html";
         }
+    }
+
+    @GetMapping("/presigned-url")
+    @ResponseBody
+    String getURL(@RequestParam String filename) {
+        var result = s3Service.createPresignedUrl("test/" + filename);
+        System.out.println(result);
+        return result;
     }
 
     @GetMapping("/edit/{id}")
