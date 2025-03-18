@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/main.css" rel = "stylesheet">
+</head>
+<body>
+    <div th:replace = "~{nav.html::navbar}"></div>
+    <div class = "card" th:each="i: ${items}">
+        <img src = "https://placehold.co/300">
+        <div>
+            <h4>
+                <a th:href="@{/detail/{id}(id=${i.id})}" th:text="${i.title}">바지</a>
+            </h4>
+            <p th:text = "${i.price+'원'}">7억</p>
+            <p th:text = "${i.username}">익명</p>
+            <a th:href="@{/edit/{id}(id=${i.id})}">✏️</a>
+            <span class="delete-btn" th:data-id="${i.id}">🗑️</span>
+        </div>
+    </div>
+    <button class = "btn">버튼</button>
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    let id = this.getAttribute('data-id');
+                    fetch(`/delete?id=${id}`, {method: 'DELETE'})
+                        .then(response => response.ok ? location.reload() : alert('삭제 실패'))
+                        .catch(err => console.error(err));
+                });
+            });
+        });
+    document.querySelectorAll(".btn")[0].addEventListener("click", function(){
+    fetch("/test1", {
+    method : 'POST',
+    headers : { 'Content-Type' : 'application/json' },
+    body : JSON.stringify({name : "kim"})//'전송할데이터' array, object 도 가능
+    })
+    })
+    /* 너무 하찮은 데이터라면? 단점: 정보가 노출됨
+    document.querySelectorAll(".btn")[0].addEventListener("click", function(){
+    fetch("/test1?이름=값&나이=값")
+            })
+            */
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<div class="nav" th:fragment="navbar">
+    <a class="logo">SpringMall</a>
+    <a>List</a>
+    <a>Write</a>
+    <!-- 로그인한 사용자만 username 표시 -->
+    <th:block sec:authorize="isAuthenticated()">
+        <a sec:authentication="name"></a>
+        <a href="/logout">로그아웃</a>
+    </th:block>
+
+    <!-- 비로그인 사용자 로그인 버튼 표시 -->
+    <th:block sec:authorize="isAnonymous()">
+        <a href="/login">로그인</a>
+    </th:block>
+</div>

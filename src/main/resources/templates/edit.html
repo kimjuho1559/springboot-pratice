@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/main.css" rel = "stylesheet">
+</head>
+<body>
+<div th:replace = "~{nav.html::navbar}"></div>
+<form action="/edit" method="POST">
+    <!--csrf 설정 시 해야됨-->
+    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+    <input name="id" th:value = "${item.id}" style="display: none">
+    <input name="title" th:value = "${item.title}">
+    <input name="price" th:value = "${item.price}">
+    <button type="submit">전송</button>
+</form>
+</body>
+</html>
