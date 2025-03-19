@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>구매 내역</title>
+  <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{nav.html::navbar}"></div>
+
+<h2>구매 내역</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>상품명</th>
+    <th>가격</th>
+    <th>구매자</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="sale : ${sales}">
+    <td th:text="${sale.itemName}">샘플 상품</td>
+    <td th:text="${sale.price + '원'}">10,000원</td>
+    <td th:text="${sale.username}">홍길동</td>
+  </tr>
+  </tbody>
+</table>
+
+<a href="/list">상품 목록으로 이동</a>
+
+</body>
+</html>

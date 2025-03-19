@@ -19,7 +19,7 @@ public class MemberController {
 
     @GetMapping("/register")
     public String register(Authentication auth) {
-        if (auth.isAuthenticated())
+        if (auth != null && auth.isAuthenticated())
             return "redirect:/list";
         return "register.html";
     }
@@ -50,12 +50,3 @@ public class MemberController {
     }
 }
 
-class MemberDTO {
-    public String username;
-    public String displayName;
-    Long id;
-    public MemberDTO(String username, String displayName) {
-        this.username = username;
-        this.displayName = displayName;
-    }
-}

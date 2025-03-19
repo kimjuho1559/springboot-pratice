@@ -31,6 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
         grantedAuthorities.add(new SimpleGrantedAuthority("일반유저"));
         var a = new CustomUser(user.getUsername(), user.getPassword(), grantedAuthorities);
         a.setDisplayName(user.getUsername());
+        a.setId(user.getId());
         return a;
     }
 

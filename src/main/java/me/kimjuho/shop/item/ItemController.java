@@ -147,7 +147,10 @@ public class ItemController {
         model.addAttribute("items", result);
         return "searchList.html";
     }
-
+    @GetMapping("/orderPage")
+    String order() {
+        return "order.html";
+    }
     /*
     @Autowired
     private ObjectMapper objectMapper; // 빈으로 주입
