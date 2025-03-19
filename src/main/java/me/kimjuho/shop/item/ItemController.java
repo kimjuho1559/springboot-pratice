@@ -140,6 +140,13 @@ public class ItemController {
         return "redirect:/list";
     }
 
+    @PostMapping("/search")
+    String postSearch(Model model, @RequestParam String searchText) {
+        var result = itemService.searchItems(searchText);
+        System.out.println(result);
+        model.addAttribute("items", result);
+        return "searchList.html";
+    }
 
     /*
     @Autowired

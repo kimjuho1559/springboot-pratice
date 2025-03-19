@@ -4,6 +4,7 @@ package me.kimjuho.shop.item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,10 @@ public class ItemService {
         } else {
             throw new RuntimeException("error");
         }
+    }
+
+    public List<Item> searchItems(String title) {
+        return itemRepository.findAllByTitleContains(title);
     }
 
     public Optional<Item> findItem(Long id) {
