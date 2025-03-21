@@ -19,6 +19,7 @@ public class Item {
     private Integer price;
     private String username;
     private String imgUrl;
+    private Integer count;
     public Item(String title, Integer price) {
         this.title = title;
         this.price = price;

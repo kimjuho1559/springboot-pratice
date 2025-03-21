@@ -1,6 +1,7 @@
 package me.kimjuho.shop.sales;
 
 import lombok.RequiredArgsConstructor;
+import me.kimjuho.shop.item.ItemRepository;
 import me.kimjuho.shop.member.CustomUser;
 import me.kimjuho.shop.member.Member;
 import me.kimjuho.shop.member.MemberRepository;
@@ -18,14 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SalesController {
     private final SalesService salesService;
-    private final MemberRepository memberRepository;
+
 
     @PostMapping("/order")
     public String postOrder(@RequestParam String title,
                             @RequestParam Integer price,
                             @RequestParam Integer count,
+                            @RequestParam Long id,
                             Authentication auth) {
-        salesService.save(title,price,count,auth);
+        salesService.addOrder(title,price,count,auth,id);
         return "list.html";
     }
     @GetMapping("/order/all")

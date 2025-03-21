@@ -18,6 +18,7 @@ public class ItemService {
             Item item = new Item(title, price);
             item.setUsername(username);
             item.setImgUrl(imgUrl);
+            item.setCount(10);
             itemRepository.save(item);
         } else {
             throw new RuntimeException("error");

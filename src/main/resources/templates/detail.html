@@ -25,7 +25,8 @@
 </div>
 <br>
 <div>
-    <form action = "/order" method="POST">
+    <form action = "/order" method="POST" style = "text-align:center">
+        <input name= "id" th:value = "${item.id}" style = "display: none">
         <input name = "title" th:value="${item.title}">
         <input name = "price" th:value="${item.price}">
         <input name = "count" placeholder="count">
